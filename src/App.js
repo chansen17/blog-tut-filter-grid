@@ -4,16 +4,16 @@ import './App.css';
 
 function App() {
   const [query, setQuery] = useState('');
-  const [users, setUsers] = useState([]);
+  const [products, setproducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchUsers = async () => {
+  const fetchproducts = async () => {
     setLoading(true);
-    const req = await fetch(`https://jsonplaceholder.typicode.com/users`);
-    const users = await req.json();
-    setUsers(users);
+    const req = await fetch(`https://fakestoreapi.com/products`);
+    const products = await req.json();
+    setproducts(products);
     setLoading(false);
-    console.log(users);
+    console.log(products);
   }
 
   const handleUserQuery = e => {
@@ -22,25 +22,31 @@ function App() {
   }
 
   useEffect(() => {
-    fetchUsers();
+    fetchproducts();
   }, []);
 
-  const filteredUsers = users.filter(partner => 
-        partner.name.toLowerCase().includes(query.toLowerCase())
+  const filteredProducts = products.filter(product => 
+        product.category.toLowerCase().includes(query.toLowerCase()) || product.title.toLowerCase().includes(query.toLowerCase())
     );
 
   return (
     <div className="App">
-    <Input placeholder="Search for one of our partners" onChange={handleUserQuery} />
+    <Input placeholder="Search electronics, clothing, jewelry.." onChange={handleUserQuery} />
     <Grid>
     {
-      filteredUsers.map(user => (
-        <User key={user.id}>
-          <h3>{user.name}</h3>
-          <h5>{user.company.name}</h5>
-          <p><em>"{user.company.catchPhrase}"</em></p>
-        </User>
-      ))
+      filteredProducts ? filteredProducts.map(product => (
+        <Product key={product.id}>
+          <Price>{product.price}</Price>
+          <small>{product.category}</small>
+          <h3>{product.title}</h3>
+          <Image src={product.image}/>
+          <p><em>{product.description.slice(0, 100)}</em></p>
+        </Product>
+      )) : (
+        <div>
+          <h3>Whoops, nothing showed up in that category.</h3>
+        </div>
+      )
     }
     </Grid>
 
@@ -77,15 +83,35 @@ const Grid = styled.div`
   min-width: 100vw;
 `;
 
-const User = styled.div`
+const Price = styled.div`
+  transition: .2s all ease-in-out;
+  opacity: 0;
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  font-size: .95rem;
+  background: #2e2e2e;
+  color: #eee;
+  backdrop-filter: blur(9px);
+  padding: .25rem;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+`;
+
+const Product = styled.div`
+  position: relative;
   width: 400px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.2);
   color: #eee;
-  font-size: 1.15rem;
+  padding: .75rem;
+  font-size: 1rem;
   backdrop-filter: blur(15px);
   margin: 1rem;
   border-radius: 9px;
@@ -93,7 +119,21 @@ const User = styled.div`
   transition: .2s all ease-in-out;
   &:hover {
     transform: translateY(-3px);
+    ${Price} {
+      opacity: 1;
+      top: -25px;
+      right: -25px;
+    }
   }
 `;
+
+const Image = styled.img`
+  max-height: 150px;
+  max-width: 150px;
+  border-radius: 12px;
+  object-fit: cover;
+`;
+
+
 
 export default App;
