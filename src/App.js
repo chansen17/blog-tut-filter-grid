@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Logo from './react-logo.png'
 import './App.css';
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
     <Input placeholder="Search electronics, clothing, jewelry.." onChange={handleUserQuery} />
     <Grid>
     {
-      filteredProducts ? filteredProducts.map(product => (
+      !loading && filteredProducts ? filteredProducts.map(product => (
         <Product key={product.id}>
           <Price>{product.price}</Price>
           <small>{product.category}</small>
@@ -43,9 +44,9 @@ function App() {
           <p><em>{product.description.slice(0, 100)}</em></p>
         </Product>
       )) : (
-        <div>
-          <h3>Whoops, nothing showed up in that category.</h3>
-        </div>
+          <Loading>
+            <img src={Logo} />
+          </Loading>
       )
     }
     </Grid>
@@ -53,6 +54,24 @@ function App() {
     </div>
   )
 }
+const Loading = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 2s infinite alternate;
+
+  img {
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+`;
 
 const Input = styled.input`
   padding: .65rem;
