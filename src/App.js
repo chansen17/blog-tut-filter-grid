@@ -35,7 +35,7 @@ function App() {
     {
       !loading && filteredProducts ? filteredProducts.map(product => (
         <Product key={product.id}>
-          <Price>{product.price}</Price>
+          <Price>${product.price}</Price>
           <small>{product.category}</small>
           <h3>{product.title}</h3>
           <Image src={product.image}/>
