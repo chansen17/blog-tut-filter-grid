@@ -14,12 +14,10 @@ function App() {
     const products = await req.json();
     setproducts(products);
     setLoading(false);
-    console.log(products);
   }
 
   const handleUserQuery = e => {
     setQuery(e.target.value);
-    console.log(query);
   }
 
   useEffect(() => {
