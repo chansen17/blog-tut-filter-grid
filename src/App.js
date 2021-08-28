@@ -42,16 +42,16 @@ function App() {
           <p><em>{product.description.slice(0, 100)}</em></p>
         </Product>
       )) : (
-          <Loading>
-            <img src={Logo} />
-          </Loading>
+        <Loading>
+          <img src={Logo} />
+        </Loading>
       )
     }
     </Grid>
-
     </div>
   )
 }
+
 const Loading = styled.div`
   position: absolute;
   top: 50%;
@@ -71,13 +71,21 @@ const Loading = styled.div`
   }
 `;
 
+const Grid = styled.div`
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Input = styled.input`
   padding: .65rem;
-  min-width: 250px;
   max-width: 400px;
   width: 100%;
+  margin: 3rem auto;
   font-size: 1.25rem;
-  margin: 3rem 0;
   outline: none;
   border: none;
   background: transparent;
@@ -91,36 +99,28 @@ const Input = styled.input`
   }
 `;
 
-const Grid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  min-width: 100vw;
-`;
-
 const Price = styled.div`
-  transition: .2s all ease-in-out;
-  opacity: 0;
+  height: 50px;
+  width: 50px;
   position: absolute;
   top: -15px;
   right: -15px;
-  font-size: .95rem;
+  opacity: 0;
   background: #2e2e2e;
   color: #eee;
   backdrop-filter: blur(9px);
+  font-size: .95rem;
   padding: .25rem;
-  height: 50px;
-  width: 50px;
   border-radius: 50%;
   display: grid;
   place-items: center;
+  transition: .2s all ease-in-out;
 `;
 
 const Product = styled.div`
   position: relative;
-  width: 400px;
+  max-width: 400px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
